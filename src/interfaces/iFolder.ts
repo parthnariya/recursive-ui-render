@@ -1,5 +1,5 @@
 export interface iFolder {
-    id : number;
+    id : string;
     name : string;
     isFolder : boolean;
     items : iFolder[];
