@@ -22,7 +22,16 @@ export default function useTreeTraversal() {
 
         return {...tree,items: latestNode}
     }
+    function deleteNode(parent:iFolder, child:iFolder){
+        if(parent.isFolder && parent.items.includes(child) ){
+            const latestNode = parent.items.filter(ob => ob !== child)
+            return {...parent,items: latestNode}
+        }
+        let latestNode:iFolder[] = []
+        latestNode = parent.items.map(node => deleteNode(node,child))
+        return {...parent,items: latestNode}
+    }
 
 
-    return { insertNode };
+    return { insertNode ,deleteNode};
 }

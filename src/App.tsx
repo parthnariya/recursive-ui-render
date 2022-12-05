@@ -7,16 +7,20 @@ import { iFolder } from './interfaces/iFolder'
 function App() {
   const [data,setData] = useState<iFolder>(explorer)
 
-  const {insertNode} = useTreeTraversal()
+  const {insertNode,deleteNode} = useTreeTraversal()
 
   const handleNewFolder = (folderId:string,item:string,isFolder:boolean) => {
     const finalData = insertNode(data,folderId,item,isFolder)
     setData(finalData) 
   }
+  const handleDeleteFolder = (folder:iFolder) => {
+    const finalData = deleteNode(data,folder) 
+    if (finalData) setData(finalData)
+  }
 
   return (
     <div className="App">
-      <Folder explorer={data} newFolderHandler={handleNewFolder}/>
+      <Folder explorer={data} newFolderHandler={handleNewFolder} deleteFolderHandler = {handleDeleteFolder}/>
     </div>
   )
 }
