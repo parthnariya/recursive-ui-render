@@ -1,5 +1,5 @@
 import { iFolder } from "../interfaces/iFolder";
-import {v4 as uuidv4} from "uuid"
+import { v4 as uuidv4 } from "uuid";
 export default function useTreeTraversal() {
     function insertNode(
         tree: iFolder,
@@ -7,15 +7,22 @@ export default function useTreeTraversal() {
         item: string,
         isFolder: boolean
     ) {
-        if(tree.id === folderId && tree.isFolder) {
+        if (tree.id === folderId && tree.isFolder) {
             tree.items.unshift({
-                id:uuidv4(),
-                name:item,
+                id: uuidv4(),
+                name: item,
                 isFolder,
-                items:[]
-            })
+                items: [],
+            });
+            return tree;
         }
-        return tree
-     }
-     return {insertNode}
+        // DFS Algo
+        let latestNode:iFolder[] = []
+        latestNode = tree.items.map(node => insertNode(node,folderId,item,isFolder) )
+
+        return {...tree,items: latestNode}
+    }
+
+
+    return { insertNode };
 }
